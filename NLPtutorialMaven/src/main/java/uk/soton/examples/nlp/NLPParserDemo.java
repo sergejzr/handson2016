@@ -106,7 +106,7 @@ public class NLPParserDemo {
 			NLPParserDemo demo = new NLPParserDemo();
 
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-
+//"2015-04-01"
 			demo.parseText(text, sdf.format(new Date()));
 
 		} catch (BoilerpipeProcessingException e) {
