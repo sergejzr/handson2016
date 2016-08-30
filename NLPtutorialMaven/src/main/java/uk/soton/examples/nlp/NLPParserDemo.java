@@ -31,6 +31,7 @@ public class NLPParserDemo {
 	StanfordCoreNLP pipeline;
 
 	public NLPParserDemo() {
+		
 		Properties props = new Properties();
 		props.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner, parse, dcoref");
 		props.setProperty("parse.model", "edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz");
