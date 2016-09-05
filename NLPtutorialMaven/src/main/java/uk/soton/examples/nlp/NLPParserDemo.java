@@ -31,16 +31,16 @@ public class NLPParserDemo {
 	StanfordCoreNLP pipeline;
 
 	public NLPParserDemo() {
-		
-		
+
 		Properties props = new Properties();
 		props.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner, parse, dcoref");
 		props.setProperty("parse.model", "edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz");
 		props.setProperty("ssplit.isOneSentence", "false");
 
 		pipeline = new StanfordCoreNLP(props);
+
 		pipeline.addAnnotator(new TimeAnnotator("sutime", new Properties()));
-	
+
 	}
 
 	public void parseText(String text, String documentdate) {
@@ -102,22 +102,34 @@ public class NLPParserDemo {
 	}
 
 	public static void main(String[] args) {
-		String text = " Barack Obama. He is a president of the United States. Next year there will be another president. This Friday I am free. Anyone around know where a good place to get hair colored at?  Mod Salon!  Kate and Co! Get Kelsey to do it What are the price ranges?  My place  Walmart you can do it yourself unless you want to pay something crazy Depends on how long your hair is and what you want done, if you look on Mods website it will give you an idea  Capri! Ask for an advanced student. Good prices with wonderful results  College hill barbers, ask for jenny  Posh on university-Cedar Loo area";
-		try {
-			text = ArticleExtractor.INSTANCE.getText(new URL("http://www.bbc.co.uk/news/business-37220701"));
-			NLPParserDemo demo = new NLPParserDemo();
 
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-//"2015-04-01"
-			demo.parseText(text, sdf.format(new Date()));
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		// "2015-04-01"
 
-		} catch (BoilerpipeProcessingException e) {
-			
-			e.printStackTrace();
-		} catch (MalformedURLException e) {
-			
-			e.printStackTrace();
+		String text = "Dubrovnik is a Croatian city on the "
+				+ "Adriatic Sea, in the region of Dalmatia. It is one of the most " + "prominent tourist destinations "
+				+ "in the Mediterranean Sea, a seaport and the centre of "
+				+ "Dubrovnik-Neretva County. Its total population is 42,615 "
+				+ "(census 2011). In 1979, the city of Dubrovnik joined the UNESCO " + "list of World Heritage Sites.";
+
+		boolean online = false;
+
+		if (online) {
+
+			try {
+				text = ArticleExtractor.INSTANCE.getText(new URL("http://www.bbc.co.uk/news/business-37220701"));
+
+			} catch (BoilerpipeProcessingException e) {
+
+				e.printStackTrace();
+			} catch (MalformedURLException e) {
+
+				e.printStackTrace();
+			}
 		}
+
+		NLPParserDemo demo = new NLPParserDemo();
+		demo.parseText(text, sdf.format(new Date()));
 
 	}
 }
