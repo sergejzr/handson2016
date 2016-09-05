@@ -65,7 +65,12 @@ public class JavaOllieWrapper {
         JavaOllieWrapper ollieWrapper = new JavaOllieWrapper();
 
         // extract from a single sentence.
-        String sentence = "President Obama will meet with Congressional leaders on Friday, and House Republicans summoned lawmakers back for a Sunday session, in a last-ditch effort to avert a fiscal crisis brought on by automatic tax increases and spending cuts scheduled to hit next week.";
+       // String sentence = "President Obama will meet with Congressional leaders on Friday, and House Republicans summoned lawmakers back for a Sunday session, in a last-ditch effort to avert a fiscal crisis brought on by automatic tax increases and spending cuts scheduled to hit next week.";
+        
+        String sentence = "Dubrovnik is a Croatian city on the "
+				+ "Adriatic Sea, in the region of Dalmatia. ";
+
+        
         Iterable<OllieExtractionInstance> extrs = ollieWrapper.extract(sentence);
 
         // print the extractions.
