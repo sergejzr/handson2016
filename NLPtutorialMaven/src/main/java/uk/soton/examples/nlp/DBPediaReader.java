@@ -61,10 +61,10 @@ public class DBPediaReader {
 					JSONObject entity = entities.getJSONObject(i);
 					
 					System.out.println(
+									"surfaceForm: "	+ entity.getString("@surfaceForm") + " " + 
 									"URI: " + entity.getString("@URI") + " " + 
 									"support: " + entity.getString("@support") + " " +
 									"types: " + entity.getString("@types") + " " + 
-									"surfaceForm: "	+ entity.getString("@surfaceForm") + " " + 
 									"offset: " + entity.getString("@offset")+ " " + 
 									"similarityScore: " + entity.getString("@similarityScore") + " " + 
 									"percentageOfSecondRank: " + entity.getString("@percentageOfSecondRank") + "\n");
