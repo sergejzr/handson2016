@@ -13,63 +13,68 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
 public class DBPediaReader {
-    private final static String API_URL = "http://spotlight.sztaki.hu:2222/";
-	private static final double CONFIDENCE = 0.0;
+	private final static String API_URL = "http://spotlight.sztaki.hu:2222/";
+	private static final double CONFIDENCE = 0.6;
 	private static final int SUPPORT = 0;
-	
+
 	public static void main(String[] args) {
-		DBPediaReader r=new DBPediaReader();
-		r.annotate(" Barack Obama. He is a president of the United States. Next year there will be another president. This Friday I am free. Anyone around know where a good place to get hair colored at?  Mod Salon!  Kate and Co! Get Kelsey to do it What are the price ranges?  My place  Walmart you can do it yourself unless you want to pay something crazy Depends on how long your hair is and what you want done, if you look on Mods website it will give you an idea  Capri! Ask for an advanced student. Good prices with wonderful results  College hill barbers, ask for jenny  Posh on university-Cedar Loo area");
+		DBPediaReader r = new DBPediaReader();
+
+		String text = "Dubrovnik is a Croatian city on the "
+				+ "Adriatic Sea, in the region of Dalmatia. It is one of the most " + "prominent tourist destinations "
+				+ "in the Mediterranean Sea, a seaport and the centre of "
+				+ "Dubrovnik-Neretva County. Its total population is 42,615 "
+				+ "(census 2011). In 1979, the city of Dubrovnik joined the UNESCO " + "list of World Heritage Sites.";
+
+		r.annotate(text);
 	}
-	public void annotate(String text)
-	{
+
+	public void annotate(String text) {
 		try {
 			Client client = Client.create();
-			String requrl = API_URL + "rest/annotate/?" +
-					"confidence=" + CONFIDENCE
-					+ "&support=" + SUPPORT
-					+ "&text=" + URLEncoder.encode(text, "utf-8");
 			
-			WebResource webResource = client
-					   .resource(requrl);
+			String requrl = API_URL + "rest/annotate/?" + 
+									"confidence=" + CONFIDENCE + 
+									"&text="+ URLEncoder.encode(text, "utf-8");
+
+			WebResource webResource = client.resource(requrl);
+
+			ClientResponse response = webResource.accept("application/json").get(ClientResponse.class);
+
+			if (response.getStatus() != 200) {
+				throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+
+			}
+
+			JSONTokener tokener = new JSONTokener(response.getEntityInputStream());
+
+			// in case you need to modify string before parsing:
+			// String output = response.getEntity(String.class);
+			// System.out.println(output);
+			// output=output.replaceAll("a","b");
+			// JSONTokener tokener = new JSONTokener(new StringReader(output));
+
+			JSONObject resultJSON = new JSONObject(tokener);
+			JSONArray entities = resultJSON.getJSONArray("Resources");
+			for (int i = 0; i < entities.length(); i++) {
+				try {
+					JSONObject entity = entities.getJSONObject(i);
 					
-					ClientResponse response = webResource.accept("application/json")
-			                .get(ClientResponse.class);
+					System.out.println(
+									"URI: " + entity.getString("@URI") + " " + 
+									"support: " + entity.getString("@support") + " " +
+									"types: " + entity.getString("@types") + " " + 
+									"surfaceForm: "	+ entity.getString("@surfaceForm") + " " + 
+									"offset: " + entity.getString("@offset")+ " " + 
+									"similarityScore: " + entity.getString("@similarityScore") + " " + 
+									"percentageOfSecondRank: " + entity.getString("@percentageOfSecondRank") + "\n");
 
-					if (response.getStatus() != 200) {
-					   throw new RuntimeException("Failed : HTTP error code : "
-						+ response.getStatus());
-					  
-					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 
-					
+			}
 
-					 JSONTokener tokener = new JSONTokener(response.getEntityInputStream());
-					 
-					 //in case you need to modify string before parsing:
-					//String output = response.getEntity(String.class);
-					 //output=output.replaceAll("a","b");
-					//JSONTokener tokener = new JSONTokener(new StringReader(output));
-					 
-
-				     JSONObject resultJSON = new JSONObject(tokener);
-				     JSONArray entities = resultJSON.getJSONArray("Resources");
-				     
-				     System.out.println(resultJSON);
-				     for(int i = 0; i < entities.length(); i++) {
-							try {
-								JSONObject entity = entities.getJSONObject(i);
-								System.out.println(entity.getString("@surfaceForm")+" "+
-										entity.getString("@URI")+" "+
-												entity.getString("@support")+"("+entity.getString("@similarityScore")+")  "+entity.getString("@types")+"\n");
-
-							} catch (JSONException e) {
-				                e.printStackTrace();
-				            }
-
-						}
-				     
-			
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
