@@ -2,7 +2,6 @@ package uk.soton.examples.nlp;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.LinkedList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,11 +54,14 @@ public class DBPediaReader {
 
 				     JSONObject resultJSON = new JSONObject(tokener);
 				     JSONArray entities = resultJSON.getJSONArray("Resources");
+				     
+				     System.out.println(resultJSON);
 				     for(int i = 0; i < entities.length(); i++) {
 							try {
 								JSONObject entity = entities.getJSONObject(i);
-								System.out.println(entity.getString("@URI")+" "+
-												entity.getString("@support")+"\n");
+								System.out.println(entity.getString("@surfaceForm")+" "+
+										entity.getString("@URI")+" "+
+												entity.getString("@support")+"("+entity.getString("@similarityScore")+")  "+entity.getString("@types")+"\n");
 
 							} catch (JSONException e) {
 				                e.printStackTrace();
