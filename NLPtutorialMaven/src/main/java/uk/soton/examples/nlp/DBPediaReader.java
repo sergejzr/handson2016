@@ -13,7 +13,7 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
 public class DBPediaReader {
-	private final static String API_URL = "http://spotlight.sztaki.hu:2222/";
+	private final static String API_URL = "http://model.dbpedia-spotlight.org/en/";
 	private static final double CONFIDENCE = 0.6;
 	private static final int SUPPORT = 0;
 
@@ -33,9 +33,10 @@ public class DBPediaReader {
 		try {
 			Client client = Client.create();
 			
-			String requrl = API_URL + "rest/annotate/?" + 
+			String requrl = API_URL + "annotate/?" + 
 									"confidence=" + CONFIDENCE + 
 									"&text="+ URLEncoder.encode(text, "utf-8");
+			System.out.println(requrl);
 
 			WebResource webResource = client.resource(requrl);
 
