@@ -1,11 +1,11 @@
 # handson2016
 
-This repositity contains examples for the Introduction to Information Extraction tutorial Hands on session.
+This repositity contains examples for the Introduction to Information Extraction tutorial Hands On Session.
 
-Hands On Session: NER and Temporal Annotations
+NER and Temporal Annotations using Stanford NER and SUTime.
 
-Stanford NER and SUTime:
 Run uk.soton.examples.nlp.NLPParserDemo.java
+
 Pipeline configuration example:
 
 public NLPParserDemo() {
