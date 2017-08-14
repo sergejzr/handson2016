@@ -2,20 +2,12 @@
 
 This repositity contains examples for the Introduction to Information Extraction tutorial Hands On Session.
 
-NER and Temporal Annotations using Stanford NER and SUTime.
+Requirements: Eclipse IDE, Git plugin
+Check out from GitHub https://github.com/sergejzr/handson2016.git 
+Set up: Import project “NLPtutorialMaven” in Eclipse.
 
-Run uk.soton.examples.nlp.NLPParserDemo.java
+NER and Temporal Annotations using Stanford NER and SUTime: uk.soton.examples.nlp.NLPParserDemo.java
 
-Pipeline configuration example:
+DBpedia Spotlight example: uk.soton.examples.nlp.DBPediaReader 
 
-public NLPParserDemo() {
-
-Properties props = new Properties();
-props.setProperty("annotators", 
-"tokenize, ssplit, pos, lemma, ner, parse, dcoref");
-props.setProperty("parse.model", 
-"edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz");
-props.setProperty("ssplit.isOneSentence", "false");
-
-pipeline = new StanfordCoreNLP(props);
-pipeline.addAnnotator(new TimeAnnotator("sutime", new Properties()));}
+Relation extraction: uk.soton.examples.nlp.JavaOllieWrapper 
